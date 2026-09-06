@@ -1,0 +1,22 @@
+set shell zsh
+set icons true
+set hidden true
+set previewer ~/.config/lf/pv.sh
+set cleaner ~/.config/lf/pvc.sh
+set number true
+
+cmd open &{{
+    set -f
+    case $(file --mime-type -Lb "$f") in
+        text/*) lf -remote "send $id \$$EDITOR \$fx";;
+        *) for f in $fx; do $OPENER "$f" > /dev/null 2> /dev/null & done;;
+    esac
+}}
+cmd trash ${{ trash-put $fx; echo "[Warning]Trashed \"$fx\"" }}
+
+map h cd ~
+map f :filter
+map r :rename
+map A push :mkdir<space>
+map a push :$touch<space>
+map D trash
